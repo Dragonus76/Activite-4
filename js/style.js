@@ -59,3 +59,190 @@ var svg = document.querySelector('svg') ;
 			text.setAttribute('x',x); 
 
 		} //fin des fonctions animate (javascript)
+
+$(function() {
+    /* Construire les éléments du formulaire */
+    // Le label
+    $('button:eq(0)').click(function() { // Clic sur le 1er bouton
+        // Affiche le label à créer
+        $('#construct-form').html(
+                '<div id="label">' +
+                    '<div class="form-group">' +
+                        '<label class="control-label">' +
+                            'Texte du label :' +
+                        '</label>' +
+                        '<input id="contentText" type="text" class="form-control">' +
+                    '</div>' +
+                    '<button id="validButton" class="btn btn-info">ok</button>' +
+                    '<button id="annuler" class="btn btn-warning">annuler</button>' +
+                '</div>').hide().fadeIn(); // Injecter le html en le cachant et lui affecter le fadeIn
+        
+        // Insérer un texte d'aide derrière le bloc champ en Ajax dans le container help
+        $('#help').load('files/content_help.html #aide-label').hide().fadeIn();
+        
+        // Désactive les 3 buttons de création
+        // Utilisation d'une class bootstrap
+        $('#content-button button').attr('disabled', 'disabled');
+        
+        $('#validButton').click(function() {
+            
+            // Détecter si le champ est vide ou saisie d'espace / tab
+            // Utiliser == et non === ici pour éviter un test faux avec erreurs de transtypage
+            if (($('#contentText').val()).trim() !== "" ) { // Si caractères saisis
+                
+                // Construire l'élément en récupérant la variable de l'input
+                var contentLabel = '<div class="form-group"><label>' + $('#contentText').val() + '</label></div>';
+
+                // Générer le contenu dans le conteneur gauche
+                $('#gauche form').append(contentLabel);
+
+                // En fondu - Disparition
+                $('#construct-form #label').fadeOut(function() {
+                    // Supprimer le contenu dans le conteneur droit
+                    $('#construct-form #label').remove();
+
+                    // Réactiver les buttons de création en supprimant disabled
+                    $('#content-button button').removeAttr('disabled');
+                });
+                
+                // Fondu disparition de l'aide
+                $('#help #aide-label').fadeOut();
+                
+            } else { // Si vide, espace ou tab
+                
+                alert('Vous devez saisir un texte pour le label');
+                
+            }
+            
+        });
+        
+        // Gestion du bouton annuler
+        $('#annuler').click(function() {
+            $('#construct-form #label').fadeOut(function() {
+                $('#construct-form #label').remove();
+                $('#content-button button').removeAttr('disabled');
+            });
+            
+            // Fondu disparition de l'aide
+            $('#help #aide-label').fadeOut();    
+        });
+    });
+    
+    
+    
+    // La zone de texte - Le cheminement de la méthode est identique à la création du label - pas de commentaire
+    $('button:eq(1)').click(function() {
+        $('#construct-form').html(
+                '<div id="input">' +
+                    '<div class="form-group">' +
+                        '<label class="control-label">' +
+                            'ID de la zone de texte :' +
+                        '</label>' +
+                        '<input id="contentText" type="text" class="form-control">' +
+                    '</div>' +
+                    '<button id="validButton" class="btn btn-info">ok</button>' +
+                    '<button id="annuler" class="btn btn-warning">annuler</button>' +
+                '</div>').hide().fadeIn();
+        
+        $('#help').load('files/content_help.html #aide-input').hide().fadeIn();
+        
+        $('#content-button button').attr('disabled', 'disabled');
+        
+        $('#validButton').click(function() {
+            
+            if (($('#contentText').val()).trim() !== "" ) {
+                
+                var contentInput = '<input class="form-control" id="' + $('#contentText').val() + '" type="text">';
+                $('#gauche form div.form-group').last().append(contentInput);
+                $('#construct-form #input').fadeOut(function() {
+                    $('#construct-form #input').remove();
+                    $('#content-button button').removeAttr('disabled');
+                });
+                
+                $('#help #aide-input').fadeOut();
+                
+            } else {
+                
+                alert('Vous devez saisir un id pour le champ');
+                
+            }
+            
+        });
+        
+        $('#annuler').click(function() {
+            $('#construct-form #input').fadeOut(function() {
+                $('#construct-form #input').remove();
+                $('#content-button button').removeAttr('disabled');
+            });
+            $('#help #aide-input').fadeOut();
+        });
+    });
+    
+    
+    
+    // Le button - Le cheminement de la méthode est identique à la création du label et de la zone de texte - pas de commentaire
+    $('button:eq(2)').click(function() {
+       $('#construct-form').html(
+                '<div id="button">' +
+                    '<div class="form-group">' +
+                        '<label class="control-label">' +
+                            'Texte du bouton :' +
+                        '</label>' +
+                        '<input id="contentText" type="text" class="form-control">' +
+                    '</div>' +
+                    '<button id="validButton" class="btn btn-info">ok</button>' +
+                    '<button id="annuler" class="btn btn-warning">annuler</button>' +
+                '</div>').hide().fadeIn();
+        
+        $('#help').load('files/content_help.html #aide-button').hide().fadeIn();
+        
+        $('#content-button button').attr('disabled', 'disabled');
+        
+        $('#validButton').click(function() {
+            
+            if (($('#contentText').val()).trim() !== "" ) {
+                
+                var contentButton = '<button type="submit" class="btn btn-default">' + $('#contentText').val() + '</button>';
+                $('#gauche form').last().append(contentButton);
+                $('#construct-form #button').fadeOut(function() {
+                    $('#construct-form #button').remove();
+                    $('#content-button button').removeAttr('disabled');
+                });
+                
+                $('#help #aide-button').fadeOut();
+                
+            } else {
+                
+                alert('Vous devez saisir un texte pour le bouton');
+                
+            }
+            
+        });
+        
+        $('#annuler').click(function() {
+            $('#construct-form #button').fadeOut(function() {
+                $('#construct-form #button').remove();
+                $('#content-button button').removeAttr('disabled');
+            });
+            $('#help #aide-button').fadeOut();
+        });
+    });
+});
+
+
+//fontion musique 
+
+        
+        $(document).ready(function () {
+    var obj = document.createElement("audio");
+    obj.src = "son/son.mp3";
+    obj.volume = 1;
+    obj.autoPlay = false;
+    obj.preLoad = true;
+    $("#click").click(function () {
+        obj.play();
+    });
+});
+
+
+
